@@ -1,12 +1,18 @@
 ### tomorrow
 
 Results in a string representation of tomorrow's date.
-Use `new Date()` to get today's date, adding `86400000` of seconds to it(24 hours), using `Date.toISOString()` to convert Date object to string.
+
+Use `new Date()` to get the current date, increment by one using `Date.getDate()` and set the value to the result using `Date.setDate()`. 
+Use `Date.prototype.toISOString()` to return a string in `yyyy-mm-dd` format.
 
 ```js
-const tomorrow = () => new Date(new Date().getTime() + 86400000).toISOString().split('T')[0];
+const tomorrow = () => {
+  let t = new Date();
+  t.setDate(t.getDate() + 1);
+  return t.toISOString().split('T')[0];
+};
 ```
 
 ```js
-tomorrow(); // 2017-12-27 (if current date is 2017-12-26)
+tomorrow(); // 2018-10-18 (if current date is 2018-10-18)
 ```

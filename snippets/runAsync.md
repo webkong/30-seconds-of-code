@@ -8,9 +8,8 @@ Return a promise, listening for `onmessage` and `onerror` events and resolving t
 
 ```js
 const runAsync = fn => {
-  const blob = `var fn = ${fn.toString()}; postMessage(fn());`;
   const worker = new Worker(
-    URL.createObjectURL(new Blob([blob]), {
+    URL.createObjectURL(new Blob([`postMessage((${fn})());`]), {
       type: 'application/javascript; charset=utf-8'
     })
   );
@@ -28,13 +27,9 @@ const runAsync = fn => {
 ```js
 const longRunningFunction = () => {
   let result = 0;
-  for (let i = 0; i < 1000; i++) {
-    for (let j = 0; j < 700; j++) {
-      for (let k = 0; k < 300; k++) {
-        result = result + i + j + k;
-      }
-    }
-  }
+  for (let i = 0; i < 1000; i++)
+    for (let j = 0; j < 700; j++) for (let k = 0; k < 300; k++) result = result + i + j + k;
+
   return result;
 };
 /*
